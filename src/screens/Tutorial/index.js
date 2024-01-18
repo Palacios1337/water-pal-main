@@ -6,7 +6,6 @@ import WebView from 'react-native-webview';
 
 const Tutorial = ({ route, navigation }) =>
 {
-    const myPath = require('../../assets/pdfs/WaterPAL_Instructions.pdf')
     const handlePress = () =>
     {
         navigation.replace("Login")

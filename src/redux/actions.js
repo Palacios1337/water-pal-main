@@ -3,30 +3,28 @@ export const SET_USER_PASSWORD = 'SET_USER_PASSWORD';
 export const GET_USER_EMAIL = 'GET_USER_EMAIL';
 export const GET_USER_PASSWORD = 'GET_USER_PASSWORD';
 
-export const setEmail = Email => dispatch => {
-    dispatch({
+export const setEmail = Email => ({
+
         type: SET_USER_EMAIL,
-        payload: Email,
-    })
-}
+        payload: {Email}
 
-export const setPassword = Password => dispatch => {
-    dispatch({
+});
+
+export const setPassword = Password => ({
+
         type: SET_USER_PASSWORD,
-        payload: Password,
-    })
-}
+        payload: {Password}
 
-export const getEmail = Email => dispatch =>{
-    dispatch({
+});
+
+export const getEmail = Email => ({
         type: GET_USER_EMAIL,
-        payload: Email,
-    })
-}
+        payload: {Email}
+});
 
-export const getPassword = Password => dispatch =>{
-    dispatch({
+export const getPassword = Password => ({
+
         type: GET_USER_PASSWORD,
-        payload: Password,
-    })
-}
+        payload: {Password},
+
+});

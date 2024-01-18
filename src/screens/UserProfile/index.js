@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+  import React, { useState } from 'react';
   import { StyleSheet, Text, View } from 'react-native';
   import { Dropdown } from 'react-native-element-dropdown';
   import AntDesign from '@expo/vector-icons/AntDesign';
-
+  import PasswordReset from '../../components/PasswordReset';
   const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
+    { label: 'User Information', value: '1' },
+    { label: 'Reset Password', value: '2' },
     { label: 'Item 3', value: '3' },
     { label: 'Item 4', value: '4' },
     { label: 'Item 5', value: '5' },
@@ -20,6 +20,8 @@ import React, { useState } from 'react';
 
     const renderLabel = () => {
       if (value || isFocus) {
+
+        //console.log(value)
         return (
           <Text style={[styles.label, isFocus && { color: 'blue' }]}>
             Dropdown label
@@ -29,7 +31,21 @@ import React, { useState } from 'react';
       return null;
     };
 
+    const changeSettingType = (Type) => {
+      if (Type  !=  null){
+        if (Type == 2){
+          return(
+            <PasswordReset>
+
+            </PasswordReset>
+          )
+        }
+      }
+    };
+
+
     return (
+      <View>
       <View style={styles.container}>
         {renderLabel()}
         <Dropdown
@@ -61,6 +77,10 @@ import React, { useState } from 'react';
             />
           )}
         />
+      </View>
+      <View>
+          {changeSettingType(value)}
+        </View>
       </View>
     );
   };

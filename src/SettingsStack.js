@@ -12,7 +12,6 @@ const Stack = createNativeStackNavigator();
 
 const SettingsStack = (navigation,route) => 
 {
-  console.log(navigation)
   return (
     <Stack.Navigator>
       <Stack.Screen name="Settings" options={{ headerShown: true, title: 'Settings', headerTitleStyle: { color: global.primary } }} component={Settings} />

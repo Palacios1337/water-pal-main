@@ -26,16 +26,38 @@ const popuplist = [
   },
 ]
 
-export default function Login({ navigation }) {
+var responsedata = {};
+
+export default function Login({navigation}) {
+
 
   const dispatch = useDispatch();
-  const {Email,Password} = useSelector((state)=>state.userReducer);
 
-  const [useremail,setLoginEmail] = useState('');
-  const [userpassword, setLoginPassword] = useState('');
+  const [useremail,setLoginEmail] = useState(useSelector((state)=>state.Email.Email));
+  const [userpassword, setLoginPassword] = useState(useSelector((state)=> state.Password.Password));
   
   const [isModalVisible,setIsModalVisible] = React.useState(false);
   const handleModal = () => setIsModalVisible(() => !isModalVisible);
+
+  const [isReduxModalVisible,setIsReduxModalVisible] = React.useState(false);
+  const handleReduxModal = () => setIsReduxModalVisible(() => !isReduxModalVisible);
+
+
+  const nextPageFunction = (decision) => {
+    if(decision == 'yes'){
+      dispatch(setEmail(useremail));
+      dispatch(setPassword(userpassword));
+      navigation.navigate('Home',{Role: responsedata.data['role'],Email: useremail,Password: userpassword});
+      handleReduxModal();
+      console.log('saved');
+    } else if(decision == 'no'){
+      dispatch(setEmail(''));
+      dispatch(setPassword(''));
+      navigation.navigate('Home',{Role: responsedata.data['role'],Email: useremail, Password: userpassword});
+      console.log('notsaved');
+      handleReduxModal();
+    }
+  }
 
   return (
 
@@ -58,6 +80,7 @@ export default function Login({ navigation }) {
       placeholder='Input Email'
       inputStyle={{color:"#333"}}
       onChangeText={text => setLoginEmail(text)}
+      value= {useremail}
       leftIcon={
         <Icon
           name='email'
@@ -74,6 +97,7 @@ export default function Login({ navigation }) {
       placeholder='Input Password'
       secureTextEntry={true}
       onChangeText={text => setLoginPassword(text)}
+      value={userpassword}
       leftIcon={
         <Icon
           name='lock'
@@ -98,17 +122,12 @@ export default function Login({ navigation }) {
         axios.get("http://47.89.252.2:5000/login.php?!="+useremail+"|"+userpassword).then(
           response => {
               if(response.data['success']===1){
-
-                dispatch(setEmail(useremail));
-                dispatch(setPassword(userpassword));
-                console.log(Email)
-                console.log(Password);
-
                 console.log('success')
-                navigation.navigate('Home',{Role: response.data['role']})
+                //console.log(response)
+                responsedata = response;
+                //console.log(responsedata)
+                handleReduxModal();
               }else {
-                console.log(Email)
-                console.log(Password);
                 handleModal();
                 console.log("error");
             }
@@ -140,7 +159,29 @@ export default function Login({ navigation }) {
       </View>
     </Modal>
 
-
+    <Modal isVisible={isReduxModalVisible}>
+      <View style={{ backgroundColor: 'white',borderRadius: 20,}}>
+        <Text style = {{
+            alignContent: 'center',
+            alignSelf: 'center',
+            fontSize: 16,
+            fontWeight: 'bold',
+            color: 'black',
+          }}>
+          Would you like to save your username and password?
+        </Text>
+        <Button
+        buttonStyle={{width:"50%" ,borderRadius: 20,marginTop:20,marginBottom:5,alignSelf:'center'}}
+         title="Yes" 
+         onPress={() => nextPageFunction('yes')}
+         />
+                 <Button
+        buttonStyle={{width:"50%" ,borderRadius: 20,marginTop:20,marginBottom:5,alignSelf:'center'}}
+         title="No" 
+         onPress={() => nextPageFunction('no')}
+         />
+      </View>
+    </Modal>
 
 
       <Button

@@ -7,6 +7,8 @@ import Standards from './screens/Standards'
 import ActivityStack from './ActivityStack'
 import ActivityStackStudent from './ActivityStackStudent'
 import SettingsStack from './SettingsStack'
+import StandardsStack from './StandardsStack'
+import AdminActivityStack from './AdminActivityStack'
 import { ThemeConsumer } from 'react-native-elements'
 
 const Tab = createBottomTabNavigator()
@@ -20,7 +22,7 @@ const iconDimension = 30
 const Navbar = ({navigation,route}) =>
 {
     const {Role} = route.params;
-    console.log(Role);
+    console.log(route.params);
 
     if (Role == 1){
         return (
@@ -35,7 +37,8 @@ const Navbar = ({navigation,route}) =>
                         bottom: 0,
                         height: 85,
                         ...styles.shadow
-                    }
+                    },
+                    tabBarHideOnKeyboard: true
                 }}>
                 <Tab.Screen
                     name='HomeScreen'
@@ -88,7 +91,7 @@ const Navbar = ({navigation,route}) =>
                             color: headerTextColor
                         }
                     }}
-                    component={Standards} />
+                    component={StandardsStack} />
     
                 <Tab.Screen
                     name='About'
@@ -144,7 +147,7 @@ const Navbar = ({navigation,route}) =>
                     component={SettingsStack} />
             </Tab.Navigator>
         )
-    }else{
+    }else if(Role == 0){
         return (
             <Tab.Navigator
                 screenOptions={{
@@ -210,7 +213,7 @@ const Navbar = ({navigation,route}) =>
                             color: headerTextColor
                         }
                     }}
-                    component={Standards} />
+                    component={StandardsStack} />
     
                 <Tab.Screen
                     name='About'
@@ -266,9 +269,77 @@ const Navbar = ({navigation,route}) =>
                     component={SettingsStack} />
             </Tab.Navigator>
         )
-
-
-
+    }else if(Role == 2){
+        return (
+            <Tab.Navigator
+                screenOptions={{
+                    tabBarShowLabel: false,
+                    tabBarStyle: {
+                        backgroundColor: '#434547',
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        height: 75,
+                        borderTopLeftRadius: 15,
+                        borderTopRightRadius: 15,
+                    }
+                }}>
+                <Tab.Screen
+                    name='MainAdminScreen'
+                    component={AdminActivityStack}
+                    initialParams={route.params}
+                    options={{
+                        headerShown: false,
+                        tabBarIcon: ({ focused }) => (
+                            <View style={{ alignItems: 'center', justifyContent: 'center', top: 5 }}>
+                                <Image
+                                    source={require('./assets/icons/Home.png')}
+                                    resizeMode='contain'
+                                    style={{
+                                        width: iconDimension,
+                                        height: iconDimension,
+                                        tintColor: focused ? iconActiveColor : iconNotActiveColor
+                                    }}
+                                />
+                                <Text style={{ color: focused ? iconActiveColor : iconNotActiveColor, fontSize: 12 }}>Home</Text>
+                            </View>),
+                        headerStyle: {
+                            backgroundColor: headerColor
+                        },
+                        headerTitleStyle: {
+                            color: headerTextColor
+                        },
+                    }}
+                    />
+    
+                <Tab.Screen
+                    name='Settings'
+                    options={{
+                        headerShown: false,
+                        tabBarIcon: ({ focused }) => (
+                            <View style={{ alignItems: 'center', justifyContent: 'center', top: 5 }}>
+                                <Image
+                                    source={require('./assets/icons/Settings.png')}
+                                    resizeMode='contain'
+                                    style={{
+                                        width: iconDimension,
+                                        height: iconDimension,
+                                        tintColor: focused ? iconActiveColor : iconNotActiveColor
+                                    }}
+                                />
+                                <Text style={{ color: focused ? iconActiveColor : iconNotActiveColor, fontSize: 12 }}>Settings</Text>
+                            </View>),
+                        headerStyle: {
+                            backgroundColor: headerColor
+                        },
+                        headerTitleStyle: {
+                            color: headerTextColor
+                        }
+                    }}
+                    component={SettingsStack} />
+            </Tab.Navigator>
+        )
     }
 
    

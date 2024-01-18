@@ -5,7 +5,8 @@ const initialState = {
     Password: '',
 }
 
-function userReducer(state = initialState, action){
+const userReducer = (state = initialState, action) => {
+
     switch(action.type){
         case SET_USER_EMAIL:
             return{...state, Email: action.payload};
@@ -15,8 +16,9 @@ function userReducer(state = initialState, action){
             return{...state, Email: state.Email};
         case GET_USER_PASSWORD:
             return{...state, Password: state.Password};
-        default:
+        default:{
             return state;
+        };
     }
 }
 
